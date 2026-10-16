@@ -37,7 +37,7 @@ async def serve():
         except Exception as e:
             # Do not leak dependency errors containing private paths or credentials.
             return types.CallToolResult(isError=True, content=[types.TextContent(type='text',text=type(e).__name__ + ': operation failed; check configuration, policy and integrity')])
-    server = Server('sgit-ruv-memory', version='0.1.0', on_list_tools=list_tools, on_call_tool=call_tool)
+    server = Server('sgit-ruv-memory', version='0.2.0', on_list_tools=list_tools, on_call_tool=call_tool)
     async with stdio_server() as (read, write):
         await server.run(read, write, server.create_initialization_options())
 

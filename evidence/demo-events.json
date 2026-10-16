@@ -11,6 +11,14 @@
     }
   },
   {
+    "step": "ABP compiled to Ruflo rules",
+    "details": {
+      "profile": "sgit-ruv-memory/v1",
+      "rules": 4,
+      "delete": "approval_required"
+    }
+  },
+  {
     "step": "Two worker facts stored",
     "details": {
       "rows": 2,
@@ -27,9 +35,17 @@
   {
     "step": "Encrypted checkpoint committed",
     "details": {
-      "id": "3ae60767926a428d8ff8a7f35871ad4b",
-      "ciphertext_sha256": "14871906572070a4c0328fc76aeb56381aa478dff96fe7c7a4f07b4cdf6f480b",
-      "policy_sha256": "996a6c70d7685c720f1b3a83991843d1fe76ca4bd2d1070914ec1483c828c68d"
+      "id": "299292643ab042a5a2e28047e2e03f8f",
+      "ciphertext_sha256": "0d65c06fb8bc0624445f99aab0fdc4a521977ee18a37986ea89a77082e7e9a50",
+      "policy_sha256": "463d4228d66981dad9c38027e831f9c075d25b7db2e336f0d6f7fedc89df452e",
+      "abp_sha256": "92ca6959ebc6e1b28ece0a3161dc70d7d520bc5feadb8adfd2a2d6a9c25bc2a4"
+    }
+  },
+  {
+    "step": "ABP approval blocks deletion",
+    "details": {
+      "blocked": true,
+      "checkpoint_retained": true
     }
   },
   {

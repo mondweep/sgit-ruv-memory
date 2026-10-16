@@ -1,8 +1,10 @@
-# SGit × rUv Memory — local MVP
+# SGit × rUv Memory — ABP-governed local MCP MVP
 
-A working stdio MCP server for policy-gated, encrypted SQLite checkpoints and isolated restore. Uses SGit 0.22.3 source pinned to Git commit `559752641bc520986fb0851b4a43875b6ad0d4ad` (not an assumed PyPI release), and its actual vault init/commit/checkout implementation and a pinned copy of Ruflo's policy evaluator in enforce mode. Linux/macOS, Python 3.11+, Node 24+ required. Tested on Linux, Python 3.12, Node 24.
+Version 0.2 connects **Agent Behaviour Policy → compiled Ruflo rules → enforced adapter operation → SGit encrypted checkpoint**. This is a local external MCP server, not native Ruflo plugin registration.
 
-## Run
+Requires Linux/macOS, Python 3.11+, Git and Node 24+. SGit is pinned to reviewed source commit `559752641bc520986fb0851b4a43875b6ad0d4ad` because its 0.22.3 version was unavailable from the package index. Tested on Linux/Python 3.12/Node 24.
+
+## Install and reproduce
 
 ```bash
 python -m venv .venv
@@ -12,33 +14,37 @@ python -m unittest discover -s tests -v
 python demo.py
 ```
 
-`demo.py` uses a real MCP client and two fresh server processes. It creates its own synthetic SQLite memory fixture and temporary configuration, checkpoints two role-labelled facts, removes the source database, restores and queries both rows, and rejects tampered ciphertext. It writes non-secret evidence under `evidence/`. Run it from this project directory.
+The real MCP stdio demo compiles a mandate, blocks an unauthorised namespace, checkpoints two synthetic SQLite facts, blocks approval-required deletion, removes the source DB, starts a new server process, restores both facts and rejects tampering. Recorded results are under `evidence/`. The tests also exercise live WAL writes and concurrent checkpoints.
 
-## Connect your own memory database
+## Define the mandate
 
-Create `config.json` outside your code repository, with mode 0600. Use absolute paths. The adapter creates store, keys and restore_root directories with mode 0700; existing directories must already have those permissions. Keys must be separate from store. Sources are host-allowlisted SQLite files; callers cannot choose filesystem paths or impersonate another principal.
+Use `examples/memory.abp.json` as the starting point. It uses SGit's **ABP 0.1-poc document structure**, with the explicit adapter profile `sgit-ruv-memory/v1`. This is a narrow extension, not support for all upstream capabilities.
 
-```json
-{
-  "store": "/absolute/private/checkpoints",
-  "keys": "/absolute/private/key-records",
-  "restore_root": "/absolute/private/restored",
-  "principal": "local-agent",
-  "valid_until": "2027-01-01T00:00:00+00:00",
-  "sources": {"project": "/absolute/project/.swarm/memory.db"},
-  "rules": [{
-    "id": "project-memory",
-    "effect": "allow",
-    "actions": ["memory.checkpoint", "memory.inspect", "memory.restore"],
-    "principals": ["local-agent"],
-    "resources": ["project"]
-  }]
-}
-```
+| Capability | Adapter action | Vocabulary |
+|---|---|---|
+| `write.memory.project` | `memory.checkpoint` | Adapter extension |
+| `read.memory.project` | `memory.restore` | Adapter extension; permits read and isolated recovery |
+| `read.record.history` | `memory.inspect` | Existing SGit primitive, mapped to checkpoint inspection |
+| `delete.memory.project` | `memory.delete` | Adapter extension |
 
-Confirm which database your installed Ruflo version actually uses before configuring it. No Ruflo CLI schema or semantic search compatibility is claimed from the synthetic fixture. The adapter copies an entire database, not selected rows; do not map different security domains in one database to separate namespaces.
+Each role has an `id`, `purpose` and capability `rows`. Each row supplies `reach`, `mandate`, `why` and explicit namespace `instances`. Deny and approval rows also require a `barrier`.
 
-Example MCP host configuration (substitute your paths):
+- `yes` compiles to `allow`; `no` to `deny`; `approval` to `require_approval`.
+- Unsupported capabilities, versions, profiles, unknown fields, duplicate roles/capabilities, malformed values and wildcard/unknown namespaces reject the entire document. No silent skipping.
+- Instances mean exact configured namespace identifiers, not arbitrary file paths or glob expressions. All effects retain that scope, including deny and approval.
+- Unreachable capabilities cannot be granted. Unmatched requests default deny in Ruflo's evaluator.
+- The ABP's owner and expiry are required. A date expires at 00:00 UTC at the start of that date; timezone-aware timestamps are also accepted by this profile.
+- Approval-required actions are blocked. There is no human approval fulfilment mechanism yet.
+
+The Python compiler adapts the structure and mandate/effect mapping of SGit's `poc/poc1-abp-to-ruflo-policy/compile.mjs`, with strict validation and the explicit mappings above. It is not a claim that SGit's existing 23-primitive compiler accepts these new memory primitives unchanged. The vocabulary extension is proposed for review in SGit PR #1.
+
+## Configure and connect
+
+Copy `examples/config.json` and `examples/memory.abp.json` into a private directory; edit absolute paths and review the mandate. Set both files to mode `0600`. `abp_path` resolves relative to the config file. Config supplies source allowlists and a fixed principal; that principal must match an ABP role. Raw `rules` and config-level expiry overrides are rejected, so they cannot bypass the mandate. Policy is compiled at server startup; restart after editing it. Expiry is checked on every operation.
+
+Store, keys and restore_root directories are created with mode `0700`; existing directories must already use that mode. Keep keys separate from ciphertext. Identify the actual SQLite database used by your installed Ruflo commands before configuring it: layouts vary. A namespace authorises the **whole database**, not selected rows.
+
+Example compatible MCP host configuration:
 
 ```json
 {"mcpServers":{"sgit-ruv-memory":{
@@ -47,43 +53,33 @@ Example MCP host configuration (substitute your paths):
 }}}
 ```
 
-Tools:
-- `checkpoint(namespace)` — SQLite backup, integrity check, encrypted SGit commit, local ciphertext publication.
-- `inspect(checkpoint_id)` — compare store digest with trusted private record.
-- `restore(checkpoint_id, workspace)` — verify, decrypt, check manifest/database, atomically rename into a NEW workspace.
-- `close_run(checkpoint_id)` — delete local encrypted checkpoint and its private key record; requires explicit `memory.delete` permission.
+| Tool | Behaviour |
+|---|---|
+| `checkpoint(namespace)` | Policy check, consistent SQLite backup, integrity check, SGit vault init/commit, ciphertext publication |
+| `inspect(checkpoint_id)` | Policy check, manifest metadata and ciphertext digest verification |
+| `restore(checkpoint_id, workspace)` | Policy check, verify/decrypt/check SQLite, promote to a NEW workspace only |
+| `close_run(checkpoint_id)` | Policy check, local checkpoint/key-record deletion; restored workspaces remain |
 
-No approval bypass exists: `require_approval` is blocked in this version. An approval UX is deferred. Unknown operations default deny. The principal is the host-configured server identity, not independently authenticated per caller. Use separate processes/configurations for separate principals. The adapter gates its own tools only, not arbitrary host shell/network actions.
+Each immutable checkpoint has its own SGit vault, not shared cross-checkpoint branch history. SGit's ref manager promotes the local snapshot commit to `current` for bare checkout; no remote push is performed. Only `.sg_vault/bare/` enters the durable ciphertext store. Private key records remain outside it. Temporary staging is removed on normal completion.
 
-## What is stored
+The encrypted manifest includes source ABP hash, compiled-rule hash, profile, owner, principal, database digest and creation time. Restore verifies that historical manifest; current authority still comes from the currently loaded ABP. These hashes bind evidence to a mandate; they are **not digital signatures** or immutable audit receipts.
 
-One independent SGit vault per immutable checkpoint, with an initial commit and snapshot commit. This deliberately avoids binary database merges; it is not a shared multi-worker vault or cross-checkpoint Git history. Each encrypted vault contains `memory.sqlite` and `manifest.json`; private staging is removed afterward. Local commits normally advance SGit's clone branch, so the adapter uses SGit's ref manager to promote the snapshot commit to `current` before bare checkout. No network push is performed.
+## Verification and limits
 
-The durable store receives only `.sg_vault/bare/`. Vault keys, manifests and trusted ciphertext digests are retained in separate private key records. The manifest binds the database digest, policy digest, namespace, principal and time. It is digest-bound, not independently signed. Local OS access is the trust boundary: a process that can alter both keys and store can forge the checkpoint. SGit encrypts with its upstream cryptography; this adapter introduces no cipher.
+16 tests cover compiler mappings, scoped effects, invalid-policy rejection, digest binding, deny/approval behaviour, identity mismatch, raw-rule bypass rejection, wrong keys, tampering, expiry, live WAL writers, concurrent checkpoints, roundtrip and scoped deletion. The real MCP demo passes separately. Validation records name the exact SGit source and adapter hashes.
 
-SQLite backup is consistent for one database. It does not guarantee a common transaction across multiple databases, external vector files, or an entire Ruflo project. It preserves SQLite schema/data and verifies `PRAGMA integrity_check`. Restore does not overwrite existing workspaces. Temporary plaintext exists during checkpoint/restore, and restored workspaces intentionally contain plaintext.
+This is an external adapter using a pinned copy of Ruflo's evaluator, not Ruflo's running policy state. Only adapter tools pass through this gate. Other shell/network tools are unaffected. The host, local config and private key records are trusted; owner/role strings are not authenticated signatures. Separate processes/configurations are needed for separate host principals.
 
-## Verification
+SQLite backup is consistent for one DB, not multiple databases or external vector files. Ruflo CLI semantic recall and database compatibility are still unverified against the synthetic fixture. RVF, remote sync, Federation announcements, a full ABP compiler, native plugin registration, key rotation/HSM and multi-tenant isolation remain follow-ups.
 
-Seven tests cover roundtrip, leak probes, wrong keys, tampering, policy denial before side effects, expiry, approval-required denial, namespace/path restrictions, concurrent checkpoints, local deletion and a live WAL writer. A real MCP transport demonstration runs in addition to these tests. Evidence is in `evidence/tests.txt`, `evidence/demo-run.txt` and `evidence/demo-events.json`.
+Plaintext exists during staging and intentionally in restored workspaces. Local deletion does not erase source DBs, restored copies, external keys, OS caches or backups. A plaintext-fragment probe is not a cryptographic audit. Atomic renames protect normal execution, not power-loss durability or crash-orphan cleanup.
 
-The [video-generation script](https://github.com/mondweep/sgit-ruv-memory/blob/main/media/render_video.py) is maintained in the standalone repository. The video is an animated walkthrough of that recorded MCP run, not a screen capture of Ruflo or a claim of full end-to-end Ruflo semantic recall. Its captions and digest come from the saved demo evidence. Music is an original synthesized instrumental generated by `media/render_video.py`; no voiceover or third-party music recording.
+The original 64-second video demonstrates the pre-ABP seven-test baseline. The updated [video script](https://github.com/mondweep/sgit-ruv-memory/blob/main/media/render_video.py) can render the latest evidence with original synthesized music; the SGit POC copy does not bundle media files.
 
-## Deliberate limits and next steps
+## Attribution
 
-- Local only: no SGit remote server, Federation publish or cloud deployment.
-- SQLite only: RVF integration and Ruflo CLI retrieval tests remain next steps.
-- No digital signatures/ABP grammar compiler or human approval interface yet. Rules directly use Ruflo's evaluator schema.
-- No multi-tenant isolation, key rotation, HSM, secure erase or backup erasure guarantee.
-- The store leaks sizes, file counts and access times. A fragment probe is not a cryptographic audit.
-- Local deletion does not remove restored workspaces, source databases, OS caches or backups.
-- Process locking serializes checkpoint/restore/delete; snapshot work is bounded by a 30-second backup deadline. Atomic renames protect normal execution, but power-loss durability and crash-orphan reconciliation are not implemented.
-- Review large database performance, retention and key custody before a production deployment.
+- SGit CLI source: https://github.com/SGit-AI/SGit-AI__CLI , pinned commit above, Apache-2.0.
+- ABP structure/compiler inspiration: https://github.com/SGit-AI/SGit-AI__Website__Ruv at `d9b9ab30542211e8f87c51bf24f05d942d555f2a`, Apache-2.0. See `NOTICE`.
+- Ruflo evaluator: https://github.com/ruvnet/ruflo at `1882006a02487590c8c66a7eec8d7504f6af33c3`, MIT, by rUv/ruvnet. Vendored files retain MIT license; only evaluator import extension is changed for Node type stripping.
 
-## Upstream provenance
-
-- SGit CLI: https://github.com/SGit-AI/SGit-AI__CLI at `559752641bc520986fb0851b4a43875b6ad0d4ad`, Apache-2.0 (installed as dependency, not bundled).
-- Ruflo: https://github.com/ruvnet/ruflo at `1882006a02487590c8c66a7eec8d7504f6af33c3`, MIT. Vendored evaluator.ts, envelope.ts and types.ts; only local import extension changed from .js to .ts for Node type stripping. See vendor/ruflo/LICENSE and policy/LICENSE.
-- Initial inspiration: https://github.com/SGit-AI/SGit-AI__Website__Ruv .
-
-Adapter code and generated original music: MIT; upstream components retain their respective licenses.
+Adapter code is MIT; upstream components retain their licenses.

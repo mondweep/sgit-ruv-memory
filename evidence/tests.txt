@@ -1,12 +1,21 @@
+test_hashes_bind_changes_not_key_order (test_abp.ABPCompilerTest.test_hashes_bind_changes_not_key_order) ... ok
+test_mapping_and_scoped_effects (test_abp.ABPCompilerTest.test_mapping_and_scoped_effects) ... ok
+test_no_reach_means_no_grant (test_abp.ABPCompilerTest.test_no_reach_means_no_grant) ... ok
+test_reject_invalid_policy_matrix (test_abp.ABPCompilerTest.test_reject_invalid_policy_matrix) ... ok
+test_abp_deny_restore_and_delete_have_no_side_effects (test_core.MemoryTest.test_abp_deny_restore_and_delete_have_no_side_effects) ... ok
+test_abp_manifest_binds_source_and_rules (test_core.MemoryTest.test_abp_manifest_binds_source_and_rules) ... ok
 test_concurrent_checkpoints_and_delete (test_core.MemoryTest.test_concurrent_checkpoints_and_delete) ... ok
 test_expired_and_approval_fail_closed (test_core.MemoryTest.test_expired_and_approval_fail_closed) ... ok
 test_live_wal_writer_snapshot_is_consistent (test_core.MemoryTest.test_live_wal_writer_snapshot_is_consistent) ... ok
 test_policy_denies_before_side_effect (test_core.MemoryTest.test_policy_denies_before_side_effect) ... ok
+test_raw_rules_cannot_bypass_abp (test_core.MemoryTest.test_raw_rules_cannot_bypass_abp) ... ok
 test_roundtrip_and_no_plaintext (test_core.MemoryTest.test_roundtrip_and_no_plaintext) ... ok
+test_scoped_deny_does_not_widen_and_approval_blocks_all_tools (test_core.MemoryTest.test_scoped_deny_does_not_widen_and_approval_blocks_all_tools) ... ok
 test_tampering_rejected_without_workspace (test_core.MemoryTest.test_tampering_rejected_without_workspace) ... ok
+test_unknown_role_rejected (test_core.MemoryTest.test_unknown_role_rejected) ... ok
 test_wrong_key_and_path_escape (test_core.MemoryTest.test_wrong_key_and_path_escape) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 3.421s
+Ran 16 tests in 4.884s
 
 OK

@@ -1,0 +1,52 @@
+{
+  "abp_version": "0.1-poc",
+  "adapter_profile": "sgit-ruv-memory/v1",
+  "owner": "local operator",
+  "deployment": "local SGit memory MCP",
+  "valid_until": "2027-01-01",
+  "roles": [
+    {
+      "id": "local-agent",
+      "purpose": "checkpoint and recover project memory",
+      "rows": [
+        {
+          "capability": "write.memory.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "local memory recovery",
+          "instances": [
+            "project"
+          ]
+        },
+        {
+          "capability": "read.memory.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "local memory recovery",
+          "instances": [
+            "project"
+          ]
+        },
+        {
+          "capability": "read.record.history",
+          "reach": true,
+          "mandate": "yes",
+          "why": "local memory recovery",
+          "instances": [
+            "project"
+          ]
+        },
+        {
+          "capability": "delete.memory.project",
+          "reach": true,
+          "mandate": "approval",
+          "why": "local memory recovery",
+          "instances": [
+            "project"
+          ],
+          "barrier": "Human approval is required; MVP blocks this operation"
+        }
+      ]
+    }
+  ]
+}

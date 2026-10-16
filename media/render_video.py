@@ -9,16 +9,16 @@ DURATION=64
 FONT='/usr/share/fonts/truetype/dejavu/'
 def font(n,bold=False,mono=False):return ImageFont.truetype(FONT+('DejaVuSansMono.ttf' if mono else 'DejaVuSans-Bold.ttf' if bold else 'DejaVuSans.ttf'),n)
 events=json.loads((ROOT/'evidence/demo-events.json').read_text())
-c=events[3]['details'];short=c['ciphertext_sha256'][:24]
+c=next(e['details'] for e in events if e['step']=='Encrypted checkpoint committed');short=c['ciphertext_sha256'][:24]
 scenes=[
  ('Memory that survives the run','SGit × rUv Memory','A local MCP server. Encrypted checkpoints. Verified recovery.', ['REAL MCP RUN','SQLITE BACKUP','SGIT VAULTS'], 'A working local MVP — built and tested'),
  ('01 / Connect','One interface. Four tools.','The client connects to the real MCP server over stdio.', ['checkpoint(namespace)','inspect(checkpoint_id)','restore(checkpoint_id, workspace)','close_run(checkpoint_id)'], 'Host configuration fixes identity and allowed databases'),
- ('02 / Apply policy','Permission comes first.','Ruflo’s evaluator runs in enforce mode before checkpointing.', ['namespace: forbidden','decision: DENIED','checkpoint files created: 0'], 'A denied namespace creates no checkpoint'),
+ ('02 / Apply policy','Permission comes first.','An ABP mandate compiles into Ruflo rules before each operation.', ['namespace: forbidden','decision: DENIED','checkpoint files created: 0'], 'A denied namespace creates no checkpoint'),
  ('03 / Capture','Two facts. One consistent snapshot.','SQLite backup captures committed data, including WAL writes.', ['coder  → consistent snapshots','tester → verify before promotion','PRAGMA integrity_check → ok'], 'Two role-labelled sample facts in a SQLite memory fixture'),
  ('04 / Encrypt','A real SGit vault commit.','Only the encrypted bare store leaves private staging.', ['AES-256-GCM via SGit 0.22.3','vault keys → separate private directory','ciphertext SHA-256: '+short+'…'], 'Plaintext fragment hits: 0 • key marker hits: 0'),
  ('05 / Recover','Remove the source. Start fresh.','The demo removes the original database and restarts MCP.', ['original database exists: false','new MCP server process: connected','restore → fresh-runner'], 'Recovery uses the saved checkpoint and its private key record'),
  ('06 / Verify','Both facts are back.','Decrypt, verify the digest, check SQLite, then promote.', ['restored rows: 2 / 2','database SHA-256: MATCH','existing workspace: never overwritten'], 'Restore succeeds in an isolated workspace'),
- ('07 / Challenge','Tampering stops here.','The demo alters stored bytes, then tries another restore.', ['ciphertext integrity: MISMATCH','restore: BLOCKED','tampered workspace created: false'], 'Seven tests also pass, including live writes and wrong keys'),
+ ('07 / Challenge','Tampering stops here.','The demo alters stored bytes, then tries another restore.', ['ciphertext integrity: MISMATCH','restore: BLOCKED','tampered workspace created: false'], 'Sixteen tests also pass, including live writes and wrong keys'),
 ]
 # Original instrumental: 120 BPM, four-on-the-floor drums, warm chords, plucked melody.
 sr=44100;n=int(sr*DURATION);music=np.zeros(n,dtype=np.float64);rng=np.random.default_rng(73)
@@ -53,7 +53,7 @@ for frame in range(DURATION*FPS):
  for x in range(0,W,64):d.line((x,0,x,H),fill=(15,26,43))
  for y in range(0,H,64):d.line((0,y,W,y),fill=(15,26,43))
  d.rounded_rectangle((48,38,240,76),radius=16,fill=(19,54,62));d.text((64,46),'SGIT × RUV',font=font(19,True),fill=(92,239,208))
- d.text((970,48),'LOCAL MVP / 0.1',font=font(17,True),fill=(146,165,189))
+ d.text((970,48),'LOCAL MVP / 0.2',font=font(17,True),fill=(146,165,189))
  d.text((64,111),tag.upper(),font=font(19,True),fill=(78,219,193))
  d.text((60,152),title,font=font(46,True),fill=(242,247,255))
  d.text((64,222),subtitle,font=font(22),fill=(165,185,211))

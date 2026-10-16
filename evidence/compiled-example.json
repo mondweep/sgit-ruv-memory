@@ -1,0 +1,75 @@
+{
+  "rules": [
+    {
+      "id": "abp:local-agent:write.memory.project",
+      "principals": [
+        "local-agent"
+      ],
+      "actions": [
+        "memory.checkpoint"
+      ],
+      "resources": [
+        "project"
+      ],
+      "effect": "allow",
+      "enabled": true,
+      "priority": 10,
+      "description": "local memory recovery"
+    },
+    {
+      "id": "abp:local-agent:read.memory.project",
+      "principals": [
+        "local-agent"
+      ],
+      "actions": [
+        "memory.restore"
+      ],
+      "resources": [
+        "project"
+      ],
+      "effect": "allow",
+      "enabled": true,
+      "priority": 10,
+      "description": "local memory recovery"
+    },
+    {
+      "id": "abp:local-agent:read.record.history",
+      "principals": [
+        "local-agent"
+      ],
+      "actions": [
+        "memory.inspect"
+      ],
+      "resources": [
+        "project"
+      ],
+      "effect": "allow",
+      "enabled": true,
+      "priority": 10,
+      "description": "local memory recovery"
+    },
+    {
+      "id": "abp:local-agent:delete.memory.project",
+      "principals": [
+        "local-agent"
+      ],
+      "actions": [
+        "memory.delete"
+      ],
+      "resources": [
+        "project"
+      ],
+      "effect": "require_approval",
+      "enabled": true,
+      "priority": 90,
+      "description": "local memory recovery | Human approval is required; MVP blocks this operation"
+    }
+  ],
+  "roles": [
+    "local-agent"
+  ],
+  "abp_sha256": "c56652ff92bd7e24750260d6fd5a8fa9199a39416d7fbd3f8699cb0c5d0c1475",
+  "rules_sha256": "429fb2d9f8810e65de950224a770c45a7119f46edae266432b0848740d3b8c70",
+  "profile": "sgit-ruv-memory/v1",
+  "owner": "local operator"
+}

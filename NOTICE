@@ -1,0 +1,7 @@
+The ABP adapter profile follows the Agent Behaviour Policy 0.1-poc document
+structure and yes/no/approval effect mapping published by Dinis Cruz / SGit-AI
+in SGit-AI/SGit-AI__Website__Ruv (Apache-2.0), commit
+d9b9ab30542211e8f87c51bf24f05d942d555f2a.
+The compiler here is a new strict Python implementation with an explicitly
+extended memory vocabulary and exact namespace scopes. No full upstream ABP
+compatibility is claimed. Upstream Apache-2.0 license: vendor/sgit/LICENSE.

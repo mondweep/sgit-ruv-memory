@@ -14,6 +14,7 @@ import tempfile
 import uuid
 from sgit_ai.core.Vault__Sync import Vault__Sync
 from sgit_ai.core.Vault__Bare import Vault__Bare
+from .abp import compile_abp
 
 
 def digest(path):
@@ -36,6 +37,19 @@ class Adapter:
         if self.config_path.stat().st_mode & 0o022:
             raise ValueError('Config must not be group/world writable')
         self.cfg = json.loads(self.config_path.read_text())
+        if 'rules' in self.cfg or 'valid_until' in self.cfg:
+            raise ValueError('Use abp_path; raw rules/expiry overrides are forbidden')
+        policy_path = (self.config_path.parent / self.cfg['abp_path']).resolve(strict=True)
+        if policy_path.stat().st_mode & 0o022:
+            raise ValueError('ABP must not be group/world writable')
+        self.policy = compile_abp(json.loads(policy_path.read_text()), set(self.cfg['sources']))
+        self.principal = self.cfg['principal']
+        if self.principal not in self.policy['roles']:
+            raise ValueError('Host principal must match an ABP role')
+        if self.policy['expires'] <= dt.datetime.now(dt.timezone.utc):
+            raise PermissionError('ABP mandate expired')
+        self.rules = self.policy['rules']
+        self.policy_digest = self.policy['rules_sha256']
         self.store = Path(self.cfg['store']).resolve()
         self.keys = Path(self.cfg['keys']).resolve()
         self.restore_root = Path(self.cfg['restore_root']).resolve()
@@ -45,16 +59,14 @@ class Adapter:
             p.mkdir(parents=True, exist_ok=True, mode=0o700)
             if p.stat().st_mode & 0o077:
                 raise ValueError('Adapter directories must have mode 0700')
-        self.principal = self.cfg['principal']  # fixed by host; never supplied by tool caller
-        self.policy_digest = hashlib.sha256(json.dumps(self.cfg['rules'], sort_keys=True).encode()).hexdigest()
 
     def gate(self, action, namespace):
-        expiry = dt.datetime.fromisoformat(self.cfg['valid_until'])
+        expiry = self.policy['expires']
         if expiry <= dt.datetime.now(dt.timezone.utc):
             raise PermissionError('Mandate expired')
         req = {'identity': {'id': self.principal, 'type': 'agent'}, 'action': {'type': action, 'resource': namespace}}
         bridge = Path(__file__).parent / 'policy' / 'bridge.mjs'
-        result = subprocess.run(['node', str(bridge)], input=json.dumps({'request': req, 'rules': self.cfg['rules']}),
+        result = subprocess.run(['node', str(bridge)], input=json.dumps({'request': req, 'rules': self.rules}),
                                 text=True, capture_output=True, timeout=10, check=True)
         decision = json.loads(result.stdout)
         if decision['enforcedOutcome'] != 'allowed':
@@ -97,7 +109,8 @@ class Adapter:
             manifest = {'schema': 1, 'id': cid, 'namespace': namespace, 'principal': self.principal,
                         'created_at': dt.datetime.now(dt.timezone.utc).isoformat(), 'backend': 'sqlite-backup',
                         'database_sha256': digest(db), 'policy_sha256': self.policy_digest,
-                        'sgit_version': '0.22.3'}
+                        'sgit_version': '0.22.3', 'abp_sha256': self.policy['abp_sha256'],
+                        'abp_profile': self.policy['profile'], 'abp_owner': self.policy['owner']}
             (work / 'manifest.json').write_text(json.dumps(manifest, sort_keys=True))
             sync = Vault__Sync()
             init = sync.init(str(work), allow_nonempty=True)

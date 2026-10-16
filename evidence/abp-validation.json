@@ -1,0 +1,28 @@
+{
+  "sgit_commit": "559752641bc520986fb0851b4a43875b6ad0d4ad",
+  "abp_upstream_commit": "d9b9ab30542211e8f87c51bf24f05d942d555f2a",
+  "upstream_structure_schema_validated": true,
+  "vocabulary_extension": [
+    "write.memory.project",
+    "read.memory.project",
+    "delete.memory.project"
+  ],
+  "test_count": 16,
+  "tests": "passed",
+  "mcp_demo": "passed",
+  "files": {
+    "examples/config.json": "a97704dfc0453f513852e9ed3a23b6fc7e1110c7b8efca7a3cb5d0734d3e3e25",
+    "examples/memory.abp.json": "3d978ab6106e67ac830feecf88a5c2ee46ec974494d473bb6bacd6853fae70c3",
+    "sgit_ruv_memory/__init__.py": "7b527ef9830eff739b33aabc8bfcf16e48a5cdd937d6e3da3ea2619dc1c3915f",
+    "sgit_ruv_memory/abp.py": "82e98b32b27021c5b8fadd0089be953c32a92fb1be4c88458b053cac3cee83af",
+    "sgit_ruv_memory/core.py": "963c10442346f8d943e27ef8558cac4c656eaaa986aeb781cf1d76cff240c450",
+    "sgit_ruv_memory/policy/LICENSE": "a45ba66fa502c49ad108440536d8aa91dfe9c04575a32a01287839bee336199c",
+    "sgit_ruv_memory/policy/bridge.mjs": "5386c5ecafa06696265cbb662b0d95de142eae24c7978ae7d0db09be1bd4b251",
+    "sgit_ruv_memory/policy/envelope.ts": "5737e0173291dab2ee5bdad9ff1f05de96bec6f5bc3631959c31ef66aab760a7",
+    "sgit_ruv_memory/policy/evaluator.ts": "c09413e384516579f13162718ef8cc85aabbea10bcc967a6366683789398ce08",
+    "sgit_ruv_memory/policy/types.ts": "791c30268873ca6024784eaf1748552ed485bfaa6bf5af680dd1ee41a221ab74",
+    "sgit_ruv_memory/server.py": "846a50400606fc64226c64be171586d7957b740571c9a09064a8b5702bca4f99",
+    "tests/test_abp.py": "f0879abdcc36979d48488c8042eb37dabcc9b5622b609510645232527e764f3a",
+    "tests/test_core.py": "be723ce00bdb3630c3fbc786fd2410e5f8c358495590eb7d609abfac829eee65"
+  }
+}

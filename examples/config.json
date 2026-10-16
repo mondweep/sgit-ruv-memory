@@ -1,0 +1,10 @@
+{
+  "store": "/absolute/private/checkpoints",
+  "keys": "/absolute/private/key-records",
+  "restore_root": "/absolute/private/restored",
+  "principal": "local-agent",
+  "sources": {
+    "project": "/absolute/project/verified-memory.sqlite"
+  },
+  "abp_path": "memory.abp.json"
+}

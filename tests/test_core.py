@@ -2,6 +2,7 @@ import json, os, sqlite3, tempfile, unittest
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from sgit_ruv_memory.core import Adapter
+from sgit_ruv_memory.abp import example_abp
 
 class MemoryTest(unittest.TestCase):
     def setUp(self):
@@ -11,8 +12,9 @@ class MemoryTest(unittest.TestCase):
             db.execute('PRAGMA journal_mode=WAL');db.execute('CREATE TABLE facts(key TEXT PRIMARY KEY,value TEXT)')
             db.executemany('INSERT INTO facts VALUES (?,?)',[('coder','Use SQLite backup for a consistent checkpoint'),('tester','Verify restored memory before promotion')])
         self.cfg={'store':str(self.root/'store'),'keys':str(self.root/'keys'),'restore_root':str(self.root/'restored'),
-                  'principal':'local-agent','valid_until':'2027-01-01T00:00:00+00:00','sources':{'demo':str(self.db)},
-                  'rules':[{'id':'allow-demo','effect':'allow','actions':['memory.checkpoint','memory.inspect','memory.restore','memory.delete'],'principals':['local-agent'],'resources':['demo']}]}
+                  'principal':'local-agent','sources':{'demo':str(self.db)},'abp_path':'mandate.json'}
+        self.abp=example_abp();self.abp_path=self.root/'mandate.json'
+        self.abp_path.write_text(json.dumps(self.abp));self.abp_path.chmod(0o600)
         self.path=self.root/'config.json';self.path.write_text(json.dumps(self.cfg));self.path.chmod(0o600)
         self.a=Adapter(self.path)
     def tearDown(self):self.tmp.cleanup()
@@ -60,9 +62,60 @@ class MemoryTest(unittest.TestCase):
             self.assertEqual(db.execute('SELECT COUNT(*) FROM facts').fetchone()[0],2)
 
     def test_expired_and_approval_fail_closed(self):
-        self.cfg['valid_until']='2000-01-01T00:00:00+00:00';self.path.write_text(json.dumps(self.cfg))
+        self.abp['valid_until']='2000-01-01T00:00:00+00:00';self.abp_path.write_text(json.dumps(self.abp))
+        with self.assertRaises(PermissionError):Adapter(self.path)
+        self.abp['valid_until']='2027-01-01T00:00:00+00:00'
+        self.abp['roles'][0]['rows'][0].update(mandate='approval',barrier='human must approve')
+        self.abp_path.write_text(json.dumps(self.abp))
         with self.assertRaises(PermissionError):Adapter(self.path).checkpoint('demo')
-        self.cfg['valid_until']='2027-01-01T00:00:00+00:00';self.cfg['rules'][0]['effect']='require_approval';self.path.write_text(json.dumps(self.cfg))
-        with self.assertRaises(PermissionError):Adapter(self.path).checkpoint('demo')
+
+    def test_abp_deny_restore_and_delete_have_no_side_effects(self):
+        c=self.a.checkpoint('demo')
+        for row in self.abp['roles'][0]['rows']:
+            if row['capability'] in ('read.memory.project','delete.memory.project'):
+                row.update(mandate='no',barrier='operator retains checkpoint')
+        self.abp_path.write_text(json.dumps(self.abp));a=Adapter(self.path)
+        with self.assertRaises(PermissionError):a.restore(c['id'],'denied')
+        with self.assertRaises(PermissionError):a.close_run(c['id'])
+        self.assertFalse((a.restore_root/'denied').exists())
+        self.assertTrue(a.record(c['id']).exists())
+        self.assertTrue((a.store/c['id']).exists())
+
+    def test_abp_manifest_binds_source_and_rules(self):
+        c=self.a.checkpoint('demo')
+        self.assertEqual(c['abp_sha256'],self.a.policy['abp_sha256'])
+        self.assertEqual(c['policy_sha256'],self.a.policy['rules_sha256'])
+        self.assertEqual(self.a.inspect(c['id'])['abp_sha256'],c['abp_sha256'])
+
+    def test_raw_rules_cannot_bypass_abp(self):
+        self.cfg['rules']=[{'effect':'allow','actions':['*']}]
+        self.path.write_text(json.dumps(self.cfg))
+        with self.assertRaises(ValueError):Adapter(self.path)
+
+    def test_unknown_role_rejected(self):
+        self.cfg['principal']='impersonated'
+        self.path.write_text(json.dumps(self.cfg))
+        with self.assertRaises(ValueError):Adapter(self.path)
+
+    def test_scoped_deny_does_not_widen_and_approval_blocks_all_tools(self):
+        self.cfg['sources']['other']=str(self.db)
+        self.path.write_text(json.dumps(self.cfg))
+        role=self.abp['roles'][0]
+        for row in role['rows']:
+            row.update(mandate='no',barrier='restricted demo')
+        self.abp_path.write_text(json.dumps(self.abp));a=Adapter(self.path)
+        for action in ['memory.checkpoint','memory.inspect','memory.restore','memory.delete']:
+            with self.subTest(action=action),self.assertRaises(PermissionError):a.gate(action,'demo')
+        # Second role has authority on other only; scoped denial for local-agent cannot spill.
+        import copy
+        second=copy.deepcopy(role);second['id']='other-agent'
+        for row in second['rows']:row.update(mandate='yes',instances=['other'])
+        self.abp['roles'].append(second);self.abp_path.write_text(json.dumps(self.abp))
+        self.cfg['principal']='other-agent';self.path.write_text(json.dumps(self.cfg));a=Adapter(self.path)
+        self.assertEqual(a.gate('memory.checkpoint','other')['enforcedOutcome'],'allowed')
+        for row in second['rows']:row.update(mandate='approval',barrier='human approval')
+        self.abp_path.write_text(json.dumps(self.abp));a=Adapter(self.path)
+        for action in ['memory.checkpoint','memory.inspect','memory.restore','memory.delete']:
+            with self.subTest(action=action),self.assertRaises(PermissionError):a.gate(action,'other')
 
 if __name__=='__main__':unittest.main()
