@@ -6,7 +6,7 @@ name = "sgit-ruv-memory"
 version = "0.1.0"
 description = "Local policy-gated SQLite checkpoints in SGit encrypted vaults"
 requires-python = ">=3.11"
-dependencies = ["sgit-ai==0.22.3", "mcp==2.3.0"]
+dependencies = ["sgit-ai @ git+https://github.com/SGit-AI/SGit-AI__CLI.git@559752641bc520986fb0851b4a43875b6ad0d4ad", "mcp==2.3.0"]
 [project.scripts]
 sgit-ruv-memory = "sgit_ruv_memory.server:main"
 [tool.setuptools.packages.find]
