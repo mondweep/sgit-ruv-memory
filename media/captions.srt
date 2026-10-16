@@ -1,0 +1,40 @@
+1
+00:00:00,000 --> 00:00:08,000
+SGit × rUv Memory
+A local MCP server. Encrypted checkpoints. Verified recovery.
+
+2
+00:00:08,000 --> 00:00:16,000
+One interface. Four tools.
+The client connects to the real MCP server over stdio.
+
+3
+00:00:16,000 --> 00:00:24,000
+Permission comes first.
+Ruflo’s evaluator runs in enforce mode before checkpointing.
+
+4
+00:00:24,000 --> 00:00:32,000
+Two facts. One consistent snapshot.
+SQLite backup captures committed data, including WAL writes.
+
+5
+00:00:32,000 --> 00:00:40,000
+A real SGit vault commit.
+Only the encrypted bare store leaves private staging.
+
+6
+00:00:40,000 --> 00:00:48,000
+Remove the source. Start fresh.
+The demo removes the original database and restarts MCP.
+
+7
+00:00:48,000 --> 00:00:56,000
+Both facts are back.
+Decrypt, verify the digest, check SQLite, then promote.
+
+8
+00:00:56,000 --> 00:01:04,000
+Tampering stops here.
+The demo alters stored bytes, then tries another restore.
+

@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "sgit-ruv-memory"
+version = "0.1.0"
+description = "Local policy-gated SQLite checkpoints in SGit encrypted vaults"
+requires-python = ">=3.11"
+dependencies = ["sgit-ai==0.22.3", "mcp==2.3.0"]
+[project.scripts]
+sgit-ruv-memory = "sgit_ruv_memory.server:main"
+[tool.setuptools.packages.find]
+include = ["sgit_ruv_memory*"]
+[tool.setuptools.package-data]
+sgit_ruv_memory = ["policy/*"]

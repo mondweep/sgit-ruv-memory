@@ -1,0 +1,15 @@
+Defaulting to user installation because normal site-packages is not writeable
+Processing ./.
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: sgit-ruv-memory
+  Building wheel for sgit-ruv-memory (pyproject.toml): started
+  Building wheel for sgit-ruv-memory (pyproject.toml): finished with status 'done'
+  Created wheel for sgit-ruv-memory: filename=sgit_ruv_memory-0.1.0-py3-none-any.whl size=13032 sha256=48234cc95cc563f789618d0875c3b30a5bf60ab8fa9dfa2c7d51fcd05d57a891
+  Stored in directory: /tmp/pip-ephem-wheel-cache-k2f2n07l/wheels/5c/2b/31/4953ba26ae2b9d1be22beb323e6c432e4ada5a8c62897433f5
+Successfully built sgit-ruv-memory
+Installing collected packages: sgit-ruv-memory
+  WARNING: The script sgit-ruv-memory is installed in '/root/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed sgit-ruv-memory-0.1.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.

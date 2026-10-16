@@ -1,0 +1,9 @@
+MCP connected {'tools': ['checkpoint', 'inspect', 'restore', 'close_run']}
+Two worker facts stored {'rows': 2, 'backend': 'SQLite WAL'}
+Policy blocks unauthorised namespace {'blocked': True, 'checkpoint_files': 0}
+Encrypted checkpoint committed {'id': '3ae60767926a428d8ff8a7f35871ad4b', 'ciphertext_sha256': '14871906572070a4c0328fc76aeb56381aa478dff96fe7c7a4f07b4cdf6f480b', 'policy_sha256': '996a6c70d7685c720f1b3a83991843d1fe76ca4bd2d1070914ec1483c828c68d'}
+Encrypted store probe {'plaintext_fragment_hits': 0, 'key_marker_hits': 0}
+Original database removed {'exists': False}
+Fresh process restores both facts {'rows': [('coder', 'Use SQLite backup for consistent snapshots'), ('tester', 'Verify restored memory before promotion')], 'sha256_matches': True}
+Tampered checkpoint rejected {'blocked': True, 'workspace_created': False}
+Demo complete {'passed': True}
