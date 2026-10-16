@@ -1,0 +1,5 @@
+{
+  "ruflo_version": "3.56.10",
+  "status": "failed",
+  "error": "Ruflo command failed: ('memory', 'retrieve', '-k', 'charging-window', '-n', 'recall-validation', '--path', '<run>/fresh/.swarm/memory.db', '--format', 'json')\n\n[INFO] Started Ruflo background daemon for <run>/fresh (stop: ruflo daemon stop)\n[WARN] Key not found: charging-window\n"
+}

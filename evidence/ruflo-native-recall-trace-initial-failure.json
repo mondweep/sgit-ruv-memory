@@ -1,0 +1,233 @@
+[
+  {
+    "args": [
+      "memory",
+      "store",
+      "-k",
+      "charging-window",
+      "-v",
+      "Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "-n",
+      "recall-validation",
+      "--provenance",
+      "tool_result"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 51.875,
+    "stdout": "\n+------------+----------------------+\n| Property   | Value                |\n+------------+----------------------+\n| Key        | charging-window      |\n| Namespace  | recall-validation    |\n| Size       | 86 bytes             |\n| TTL        | None                 |\n| Tags       | None                 |\n| Vector     | Yes (384-dim)        |\n| Provenance | tool_result          |\n| ID         | entry_1792191275785_ |\n+------------+----------------------+\n\n[OK] Data stored successfully\n",
+    "stderr": "[DEBUG] Command: memory store\n[DEBUG] Positional: [Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.]\n[DEBUG] Flags: {\"key\":\"charging-window\",\"verbose\":true,\"path\":\"<run>/source/.swarm/memory.db\",\"namespace\":\"recall-validation\",\"provenance\":\"tool_result\",\"vector\":false,\"upsert\":true,\"help\":false,\"version\":false,\"quiet\":false,\"format\":\"text\",\"noColor\":false,\"interactive\":true}\n[DEBUG] CWD: <run>/source\n[DEBUG] Initialized agentic policy compatibility state (legacy)\n[DEBUG] Executing: store\n[INFO] Storing in recall-validation/charging-window...\nTransformers.js loaded: Xenova/all-MiniLM-L6-v2\nTransformers.js loaded: Xenova/all-MiniLM-L6-v2\n[DEBUG] Completed in 51599ms\n"
+  },
+  {
+    "args": [
+      "memory",
+      "store",
+      "-k",
+      "retention-policy",
+      "-v",
+      "Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "-n",
+      "recall-validation",
+      "--provenance",
+      "tool_result"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 30.732,
+    "stdout": "\n+------------+----------------------+\n| Property   | Value                |\n+------------+----------------------+\n| Key        | retention-policy     |\n| Namespace  | recall-validation    |\n| Size       | 113 bytes            |\n| TTL        | None                 |\n| Tags       | None                 |\n| Vector     | No                   |\n| Provenance | tool_result          |\n| ID         | entry_1792191276379_ |\n+------------+----------------------+\n\n[OK] Data stored successfully\n",
+    "stderr": "[DEBUG] Command: memory store\n[DEBUG] Positional: [Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.]\n[DEBUG] Flags: {\"key\":\"retention-policy\",\"verbose\":true,\"path\":\"<run>/source/.swarm/memory.db\",\"namespace\":\"recall-validation\",\"provenance\":\"tool_result\",\"vector\":false,\"upsert\":true,\"help\":false,\"version\":false,\"quiet\":false,\"format\":\"text\",\"noColor\":false,\"interactive\":true}\n[DEBUG] CWD: <run>/source\n[INFO] Started Ruflo background daemon for <run>/source (stop: ruflo daemon stop)\n[DEBUG] Executing: store\n[INFO] Storing in recall-validation/retention-policy...\nLoading ONNX model: all-MiniLM-L6-v2...\nLoading model: all-MiniLM-L6-v2 (23MB)\n  Downloading: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/onnx/model.onnx\n  Downloading: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer.json\nONNX embedder ready: 384d, SIMD: true\nLoading ONNX model: all-MiniLM-L6-v2...\nOptimized ONNX embedder ready: 384d, SIMD: true, Cache: 512\n[DEBUG] Completed in 30434ms\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.364,
+    "stdout": "{\n  \"id\": \"entry_1792191275785_2f7c33d71984ab2c\",\n  \"key\": \"charging-window\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n  \"accessCount\": 1,\n  \"createdAt\": 1792191275785,\n  \"updatedAt\": 1792191275785,\n  \"hasEmbedding\": true,\n  \"tags\": []\n}\n",
+    "stderr": "[WARN] Partial result: 1 match came from the store read here. 1 entries are in <run>/source/.swarm/agentdb-memory.db and were not searched. That store is written by the MCP/AgentDB path; read it with --path <run>/source/.swarm/agentdb-memory.db.\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "retention-policy",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.35,
+    "stdout": "{\n  \"id\": \"entry_1792191276379_398c7abf4824173b\",\n  \"key\": \"retention-policy\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n  \"accessCount\": 1,\n  \"createdAt\": 1792191276379,\n  \"updatedAt\": 1792191276379,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": "[WARN] Partial result: 1 match came from the store read here. 1 entries are in <run>/source/.swarm/agentdb-memory.db and were not searched. That store is written by the MCP/AgentDB path; read it with --path <run>/source/.swarm/agentdb-memory.db.\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "missing-key",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 1,
+    "seconds": 0.363,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: missing-key\n[WARN] This read covered one store. 1 entries are in <run>/source/.swarm/agentdb-memory.db and were not searched. That store is written by the MCP/AgentDB path; read it with --path <run>/source/.swarm/agentdb-memory.db.\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "wrong-namespace",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 1,
+    "seconds": 0.368,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n[WARN] This read covered one store. 1 entries are in <run>/source/.swarm/agentdb-memory.db and were not searched. That store is written by the MCP/AgentDB path; read it with --path <run>/source/.swarm/agentdb-memory.db.\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "Kestrel",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--type",
+      "keyword",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.356,
+    "stdout": "\n{\n  \"query\": \"Kestrel\",\n  \"searchType\": \"keyword\",\n  \"results\": [\n    {\n      \"key\": \"retention-policy\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n      \"provenanceType\": \"tool_result\"\n    },\n    {\n      \"key\": \"charging-window\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n      \"provenanceType\": \"tool_result\"\n    }\n  ],\n  \"searchTime\": \"0ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"Kestrel\" (keyword)\n[WARN] Partial result: 2 matches came from the store read here. 1 entries are in <run>/source/.swarm/agentdb-memory.db and were not searched. That store is written by the MCP/AgentDB path; read it with --path <run>/source/.swarm/agentdb-memory.db.\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "When may the vehicles replenish their batteries?",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--type",
+      "semantic",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 2.362,
+    "stdout": "\n{\n  \"query\": \"When may the vehicles replenish their batteries?\",\n  \"searchType\": \"semantic\",\n  \"results\": [],\n  \"searchTime\": \"1958ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"When may the vehicles replenish their batteries?\" (semantic)\nLoading ONNX model: all-MiniLM-L6-v2...\n  Disk cache hit: all-MiniLM-L6-v2\nONNX embedder ready: 384d, SIMD: true\nLoading ONNX model: all-MiniLM-L6-v2...\nOptimized ONNX embedder ready: 384d, SIMD: true, Cache: 512\n[WARN] Partial result: 0 matches came from the store read here. 1 entries are in <run>/source/.swarm/agentdb-memory.db and were not searched. That store is written by the MCP/AgentDB path; read it with --path <run>/source/.swarm/agentdb-memory.db.\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/fresh/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 1,
+    "seconds": 0.378,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 1.274,
+    "stdout": "Worker daemon stopped\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/fresh/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 1,
+    "seconds": 0.373,
+    "stdout": "",
+    "stderr": "[INFO] Started Ruflo background daemon for <run>/fresh (stop: ruflo daemon stop)\n[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.306,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 0,
+    "seconds": 1.347,
+    "stdout": "Worker daemon stopped\n",
+    "stderr": "fatal library error, lookup self\n"
+  }
+]

@@ -1,0 +1,303 @@
+[
+  {
+    "args": [
+      "memory",
+      "store",
+      "-k",
+      "charging-window",
+      "--value",
+      "Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "-n",
+      "recall-validation",
+      "--provenance",
+      "tool_result",
+      "--no-embedding"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.393,
+    "stdout": "\n+------------+----------------------+\n| Property   | Value                |\n+------------+----------------------+\n| Key        | charging-window      |\n| Namespace  | recall-validation    |\n| Size       | 86 bytes             |\n| TTL        | None                 |\n| Tags       | None                 |\n| Vector     | No                   |\n| Provenance | tool_result          |\n| ID         | entry_1792191485350_ |\n+------------+----------------------+\n\n[OK] Data stored successfully\n",
+    "stderr": "[INFO] Storing in recall-validation/charging-window...\n"
+  },
+  {
+    "args": [
+      "memory",
+      "store",
+      "-k",
+      "retention-policy",
+      "--value",
+      "Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "-n",
+      "recall-validation",
+      "--provenance",
+      "tool_result",
+      "--no-embedding"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.395,
+    "stdout": "\n+------------+----------------------+\n| Property   | Value                |\n+------------+----------------------+\n| Key        | retention-policy     |\n| Namespace  | recall-validation    |\n| Size       | 113 bytes            |\n| TTL        | None                 |\n| Tags       | None                 |\n| Vector     | No                   |\n| Provenance | tool_result          |\n| ID         | entry_1792191485753_ |\n+------------+----------------------+\n\n[OK] Data stored successfully\n",
+    "stderr": "[INFO] Started Ruflo background daemon for <run>/source (stop: ruflo daemon stop)\n[INFO] Storing in recall-validation/retention-policy...\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.422,
+    "stdout": "{\n  \"id\": \"entry_1792191485350_3ebe3c16605cc0c8\",\n  \"key\": \"charging-window\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n  \"accessCount\": 1,\n  \"createdAt\": 1792191485350,\n  \"updatedAt\": 1792191485350,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": "[INFO] Started Ruflo background daemon for <run>/source (stop: ruflo daemon stop)\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "retention-policy",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.441,
+    "stdout": "{\n  \"id\": \"entry_1792191485753_60070fe72a928ff4\",\n  \"key\": \"retention-policy\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n  \"accessCount\": 1,\n  \"createdAt\": 1792191485753,\n  \"updatedAt\": 1792191485753,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "missing-key",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 1,
+    "seconds": 0.526,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: missing-key\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "wrong-namespace",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 1,
+    "seconds": 0.453,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "Kestrel",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--type",
+      "keyword",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.427,
+    "stdout": "\n{\n  \"query\": \"Kestrel\",\n  \"searchType\": \"keyword\",\n  \"results\": [\n    {\n      \"key\": \"retention-policy\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n      \"provenanceType\": \"tool_result\"\n    },\n    {\n      \"key\": \"charging-window\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n      \"provenanceType\": \"tool_result\"\n    }\n  ],\n  \"searchTime\": \"0ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"Kestrel\" (keyword)\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/fresh/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 1,
+    "seconds": 0.355,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 1.29,
+    "stdout": "Worker daemon stopped\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 0,
+    "seconds": 0.259,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.354,
+    "stdout": "{\n  \"id\": \"entry_1792191485350_3ebe3c16605cc0c8\",\n  \"key\": \"charging-window\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n  \"accessCount\": 2,\n  \"createdAt\": 1792191485350,\n  \"updatedAt\": 1792191485350,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "retention-policy",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.357,
+    "stdout": "{\n  \"id\": \"entry_1792191485753_60070fe72a928ff4\",\n  \"key\": \"retention-policy\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n  \"accessCount\": 2,\n  \"createdAt\": 1792191485753,\n  \"updatedAt\": 1792191485753,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "missing-key",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 1,
+    "seconds": 0.352,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: missing-key\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "wrong-namespace",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 1,
+    "seconds": 0.366,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "Kestrel",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--type",
+      "keyword",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.361,
+    "stdout": "\n{\n  \"query\": \"Kestrel\",\n  \"searchType\": \"keyword\",\n  \"results\": [\n    {\n      \"key\": \"retention-policy\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n      \"provenanceType\": \"tool_result\"\n    },\n    {\n      \"key\": \"charging-window\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n      \"provenanceType\": \"tool_result\"\n    }\n  ],\n  \"searchTime\": \"0ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"Kestrel\" (keyword)\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.265,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.266,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  }
+]

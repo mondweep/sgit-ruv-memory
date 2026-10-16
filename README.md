@@ -70,7 +70,7 @@ The encrypted manifest includes source ABP hash, compiled-rule hash, profile, ow
 
 This is an external adapter using a pinned copy of Ruflo's evaluator, not Ruflo's running policy state. Only adapter tools pass through this gate. Other shell/network tools are unaffected. The host, local config and private key records are trusted; owner/role strings are not authenticated signatures. Separate processes/configurations are needed for separate host principals.
 
-SQLite backup is consistent for one DB, not multiple databases or external vector files. Ruflo CLI semantic recall and database compatibility are still unverified against the synthetic fixture. RVF, remote sync, Federation announcements, a full ABP compiler, native plugin registration, key rotation/HSM and multi-tenant isolation remain follow-ups.
+SQLite backup is consistent for one DB, not multiple databases or external vector files. Ruflo 3.56.10 exact-key and keyword recall have now been validated against its real SQLite memory store using the opt-in CLI acceptance runner below. Embedding-based semantic quality is not validated. RVF, remote sync, Federation announcements, a full ABP compiler, native plugin registration, key rotation/HSM and multi-tenant isolation remain follow-ups.
 
 Plaintext exists during staging and intentionally in restored workspaces. Local deletion does not erase source DBs, restored copies, external keys, OS caches or backups. A plaintext-fragment probe is not a cryptographic audit. Atomic renames protect normal execution, not power-loss durability or crash-orphan cleanup.
 
@@ -83,3 +83,19 @@ The original 64-second video demonstrates the pre-ABP seven-test baseline. The u
 - Ruflo evaluator: https://github.com/ruvnet/ruflo at `1882006a02487590c8c66a7eec8d7504f6af33c3`, MIT, by rUv/ruvnet. Vendored files retain MIT license; only evaluator import extension is changed for Node type stripping.
 
 Adapter code is MIT; upstream components retain their licenses.
+
+
+## Ruflo-native recall acceptance run
+
+```bash
+npm install --prefix /tmp/ruflo-recall-runtime --no-audit --no-fund ruflo@3.56.10
+python scripts/validate_ruflo_recall.py --runtime /tmp/ruflo-recall-runtime
+# Separate embedding-enabled experiment, bounded to 60 seconds per CLI operation:
+python scripts/validate_ruflo_recall.py --runtime /tmp/ruflo-recall-runtime --semantic
+```
+
+The default runner stores two facts through Ruflo with `--no-embedding`, verifies them with `memory retrieve --format json`, checks missing-key/wrong-namespace negatives and keyword search, checkpoints the real `.swarm/memory.db` through the ABP-governed adapter, removes the entire source project, and uses Ruflo directly in the adapter's newly restored workspace. Exact values and keyword result keys match before/after. The clean negative-control runner is separate; no opened database is overwritten. The `.swarm/agentdb-memory.db` sibling contains no test facts in this run, and `ruvector.db` is not treated as SQLite.
+
+Results and full CLI transcripts are in `evidence/ruflo-native-recall.json` and `evidence/ruflo-native-recall-trace.json`. The runtime lock and runner hashes are recorded. Initial failure evidence is retained: the first test copied a restored file over an already-opened negative-control DB; that test procedure failed and was replaced with direct use of a new restore workspace. No adapter implementation change was required.
+
+Embedding-enabled validation is reported separately in `evidence/ruflo-native-recall-semantic.json`. The explicit `--embedding --vector` run completed, but neither source row had a stored vector and the paraphrased query returned no results before or after restore; its report status is `partial`. A timeout, fallback or two matching empty result sets is not a semantic-recall pass. Even matching search output does not establish embedding quality; backend/model and query relevance must be verified. These results establish one pinned SQLite memory path and two test facts, not project-wide recovery or production scale.

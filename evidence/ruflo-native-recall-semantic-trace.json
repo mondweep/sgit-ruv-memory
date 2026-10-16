@@ -1,0 +1,347 @@
+[
+  {
+    "args": [
+      "memory",
+      "store",
+      "-k",
+      "charging-window",
+      "--value",
+      "Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "-n",
+      "recall-validation",
+      "--provenance",
+      "tool_result",
+      "--embedding",
+      "--vector"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 2.423,
+    "stdout": "  Generating embedding vector...\n\n+------------+----------------------+\n| Property   | Value                |\n+------------+----------------------+\n| Key        | charging-window      |\n| Namespace  | recall-validation    |\n| Size       | 86 bytes             |\n| TTL        | None                 |\n| Tags       | None                 |\n| Vector     | No                   |\n| Provenance | tool_result          |\n| ID         | entry_1792191493157_ |\n+------------+----------------------+\n\n[OK] Data stored successfully\n",
+    "stderr": "[INFO] Storing in recall-validation/charging-window...\nLoading ONNX model: all-MiniLM-L6-v2...\n  Disk cache hit: all-MiniLM-L6-v2\nONNX embedder ready: 384d, SIMD: true\nLoading ONNX model: all-MiniLM-L6-v2...\nOptimized ONNX embedder ready: 384d, SIMD: true, Cache: 512\n"
+  },
+  {
+    "args": [
+      "memory",
+      "store",
+      "-k",
+      "retention-policy",
+      "--value",
+      "Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "-n",
+      "recall-validation",
+      "--provenance",
+      "tool_result",
+      "--embedding",
+      "--vector"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 2.535,
+    "stdout": "  Generating embedding vector...\n\n+------------+----------------------+\n| Property   | Value                |\n+------------+----------------------+\n| Key        | retention-policy     |\n| Namespace  | recall-validation    |\n| Size       | 113 bytes            |\n| TTL        | None                 |\n| Tags       | None                 |\n| Vector     | No                   |\n| Provenance | tool_result          |\n| ID         | entry_1792191495575_ |\n+------------+----------------------+\n\n[OK] Data stored successfully\n",
+    "stderr": "[INFO] Started Ruflo background daemon for <run>/source (stop: ruflo daemon stop)\n[INFO] Storing in recall-validation/retention-policy...\nLoading ONNX model: all-MiniLM-L6-v2...\n  Disk cache hit: all-MiniLM-L6-v2\nONNX embedder ready: 384d, SIMD: true\nLoading ONNX model: all-MiniLM-L6-v2...\nOptimized ONNX embedder ready: 384d, SIMD: true, Cache: 512\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.386,
+    "stdout": "{\n  \"id\": \"entry_1792191493157_4c49c11384ee6ed2\",\n  \"key\": \"charging-window\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n  \"accessCount\": 1,\n  \"createdAt\": 1792191493157,\n  \"updatedAt\": 1792191493157,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "retention-policy",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.373,
+    "stdout": "{\n  \"id\": \"entry_1792191495575_7f7598fc63f747c7\",\n  \"key\": \"retention-policy\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n  \"accessCount\": 1,\n  \"createdAt\": 1792191495575,\n  \"updatedAt\": 1792191495575,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "missing-key",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 1,
+    "seconds": 0.391,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: missing-key\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "wrong-namespace",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 1,
+    "seconds": 0.392,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "Kestrel",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--type",
+      "keyword",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.352,
+    "stdout": "\n{\n  \"query\": \"Kestrel\",\n  \"searchType\": \"keyword\",\n  \"results\": [\n    {\n      \"key\": \"retention-policy\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n      \"provenanceType\": \"tool_result\"\n    },\n    {\n      \"key\": \"charging-window\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n      \"provenanceType\": \"tool_result\"\n    }\n  ],\n  \"searchTime\": \"0ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"Kestrel\" (keyword)\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "When may the vehicles replenish their batteries?",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/source/.swarm/memory.db",
+      "--type",
+      "semantic",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 2.298,
+    "stdout": "\n{\n  \"query\": \"When may the vehicles replenish their batteries?\",\n  \"searchType\": \"semantic\",\n  \"results\": [],\n  \"searchTime\": \"1904ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"When may the vehicles replenish their batteries?\" (semantic)\nLoading ONNX model: all-MiniLM-L6-v2...\n  Disk cache hit: all-MiniLM-L6-v2\nONNX embedder ready: 384d, SIMD: true\nLoading ONNX model: all-MiniLM-L6-v2...\nOptimized ONNX embedder ready: 384d, SIMD: true, Cache: 512\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/fresh/.swarm/memory.db",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 1,
+    "seconds": 0.361,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 1.263,
+    "stdout": "Worker daemon stopped\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/fresh",
+    "rc": 0,
+    "seconds": 0.263,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.368,
+    "stdout": "{\n  \"id\": \"entry_1792191493157_4c49c11384ee6ed2\",\n  \"key\": \"charging-window\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n  \"accessCount\": 2,\n  \"createdAt\": 1792191493157,\n  \"updatedAt\": 1792191493157,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "retention-policy",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.379,
+    "stdout": "{\n  \"id\": \"entry_1792191495575_7f7598fc63f747c7\",\n  \"key\": \"retention-policy\",\n  \"namespace\": \"recall-validation\",\n  \"content\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n  \"accessCount\": 2,\n  \"createdAt\": 1792191495575,\n  \"updatedAt\": 1792191495575,\n  \"hasEmbedding\": false,\n  \"tags\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "missing-key",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 1,
+    "seconds": 0.377,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: missing-key\n"
+  },
+  {
+    "args": [
+      "memory",
+      "retrieve",
+      "-k",
+      "charging-window",
+      "-n",
+      "wrong-namespace",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 1,
+    "seconds": 0.343,
+    "stdout": "",
+    "stderr": "[WARN] Key not found: charging-window\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "Kestrel",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--type",
+      "keyword",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.352,
+    "stdout": "\n{\n  \"query\": \"Kestrel\",\n  \"searchType\": \"keyword\",\n  \"results\": [\n    {\n      \"key\": \"retention-policy\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion.\",\n      \"provenanceType\": \"tool_result\"\n    },\n    {\n      \"key\": \"charging-window\",\n      \"score\": 0.7,\n      \"namespace\": \"recall-validation\",\n      \"preview\": \"Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.\",\n      \"provenanceType\": \"tool_result\"\n    }\n  ],\n  \"searchTime\": \"0ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"Kestrel\" (keyword)\n"
+  },
+  {
+    "args": [
+      "memory",
+      "search",
+      "-q",
+      "When may the vehicles replenish their batteries?",
+      "-n",
+      "recall-validation",
+      "--path",
+      "<run>/restores/receiver/memory.sqlite",
+      "--type",
+      "semantic",
+      "--format",
+      "json"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 2.199,
+    "stdout": "\n{\n  \"query\": \"When may the vehicles replenish their batteries?\",\n  \"searchType\": \"semantic\",\n  \"results\": [],\n  \"searchTime\": \"1846ms\"\n}\n",
+    "stderr": "[INFO] Searching: \"When may the vehicles replenish their batteries?\" (semantic)\nLoading ONNX model: all-MiniLM-L6-v2...\n  Disk cache hit: all-MiniLM-L6-v2\nONNX embedder ready: 384d, SIMD: true\nLoading ONNX model: all-MiniLM-L6-v2...\nOptimized ONNX embedder ready: 384d, SIMD: true, Cache: 512\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/source",
+    "rc": 0,
+    "seconds": 0.256,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  },
+  {
+    "args": [
+      "daemon",
+      "stop"
+    ],
+    "cwd": "<run>/restores/receiver",
+    "rc": 0,
+    "seconds": 0.266,
+    "stdout": "Worker daemon was not running\n",
+    "stderr": "fatal library error, lookup self\n"
+  }
+]

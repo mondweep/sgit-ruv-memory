@@ -1,0 +1,174 @@
+{
+  "ruflo_version": "3.56.10",
+  "status": "passed",
+  "semantic_attempt": false,
+  "runtime_lock_sha256": "3c3268bf1a8879b4ce4a4838d38a0fb77a405e887831febc270d2f5deda8558d",
+  "script_sha256": "13b3d36108737c84e14ce480fb26129fc6ef8270fed886b8fdf855edd17a8700",
+  "database_layout": [
+    {
+      "path": ".swarm/agentdb-memory.db",
+      "tables": {
+        "episodes": 0,
+        "sqlite_sequence": 0,
+        "episode_embeddings": 0,
+        "skills": 0,
+        "skill_links": 0,
+        "skill_embeddings": 0,
+        "facts": 0,
+        "notes": 0,
+        "note_embeddings": 0,
+        "events": 0,
+        "consolidated_memories": 0,
+        "exp_nodes": 0,
+        "exp_edges": 0,
+        "exp_node_embeddings": 0,
+        "memory_scores": 0,
+        "memory_access_log": 0,
+        "consolidation_runs": 0,
+        "causal_edges": 0,
+        "causal_experiments": 0,
+        "causal_observations": 0,
+        "recall_certificates": 0,
+        "provenance_sources": 0,
+        "justification_paths": 0,
+        "learning_experiences": 0,
+        "learning_sessions": 0,
+        "tiered_memory": 0,
+        "reasoning_patterns": 0,
+        "pattern_embeddings": 0,
+        "learning_policies": 0,
+        "learning_state_embeddings": 0
+      }
+    },
+    {
+      "path": ".swarm/memory.db",
+      "tables": {
+        "episodes": 0,
+        "sqlite_sequence": 0,
+        "episode_embeddings": 0,
+        "skills": 0,
+        "skill_links": 0,
+        "skill_embeddings": 0,
+        "facts": 0,
+        "notes": 0,
+        "note_embeddings": 0,
+        "events": 0,
+        "consolidated_memories": 0,
+        "exp_nodes": 0,
+        "exp_edges": 0,
+        "exp_node_embeddings": 0,
+        "memory_scores": 0,
+        "memory_access_log": 0,
+        "consolidation_runs": 0,
+        "causal_edges": 0,
+        "causal_experiments": 0,
+        "causal_observations": 0,
+        "recall_certificates": 0,
+        "provenance_sources": 0,
+        "justification_paths": 0,
+        "learning_experiences": 0,
+        "learning_sessions": 0,
+        "tiered_memory": 0,
+        "reasoning_patterns": 0,
+        "pattern_embeddings": 0,
+        "learning_policies": 0,
+        "learning_state_embeddings": 0,
+        "memory_entries": 2
+      }
+    }
+  ],
+  "baseline_exact": {
+    "charging-window": "Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.",
+    "retention-policy": "Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion."
+  },
+  "exact_recall": {
+    "before": {
+      "charging-window": "Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.",
+      "retention-policy": "Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion."
+    },
+    "after": {
+      "charging-window": "Project Kestrel electric fleet charging is permitted only between 01:00 and 04:00 UTC.",
+      "retention-policy": "Project Kestrel encrypted checkpoints are retained for seven days; restored workspaces require separate deletion."
+    },
+    "equal": true
+  },
+  "negatives": {
+    "clean_receiver_missing": true,
+    "unknown_key_rejected": true,
+    "namespace_isolated": true
+  },
+  "keyword": {
+    "before": [
+      [
+        "recall-validation",
+        "charging-window"
+      ],
+      [
+        "recall-validation",
+        "retention-policy"
+      ]
+    ],
+    "after": [
+      [
+        "recall-validation",
+        "charging-window"
+      ],
+      [
+        "recall-validation",
+        "retention-policy"
+      ]
+    ],
+    "equal": true
+  },
+  "semantic": {
+    "before": {
+      "results": [],
+      "status": "not_attempted"
+    },
+    "after": {
+      "results": [],
+      "status": "not_attempted"
+    },
+    "result_keys_equal": null,
+    "attempted": false,
+    "quality_validated": false,
+    "embedding_evidence": [
+      {
+        "key": "charging-window",
+        "dimensions": null,
+        "model": "local",
+        "present": false,
+        "sha256": null
+      },
+      {
+        "key": "retention-policy",
+        "dimensions": null,
+        "model": "local",
+        "present": false,
+        "sha256": null
+      }
+    ],
+    "embedding_columns_unchanged": true,
+    "stored_vector_count": 0,
+    "status": "not_validated",
+    "gate_passed": false,
+    "note": "Search-path parity only; inspect backend/model evidence before claiming semantic quality."
+  },
+  "checkpoint": {
+    "schema": 1,
+    "id": "b06683105ae84e5698d72eb10a2d507b",
+    "namespace": "ruflo-memory",
+    "principal": "local-agent",
+    "created_at": "2026-10-16T22:58:10.044181+00:00",
+    "backend": "sqlite-backup",
+    "database_sha256": "c88135e7dbf398985db5d2783a3b54a0103b2299208eec0d593ff86a45c241e2",
+    "policy_sha256": "68b738a6b09b18e94ad595849cb7c017fab0ea54801a0a110164c3b0d5771c33",
+    "sgit_version": "0.22.3",
+    "abp_sha256": "28da1ce44d9c527f431ace4b84786dd3cf3ff0d4d72aa9f5a7a592b7870636b9",
+    "abp_profile": "sgit-ruv-memory/v1",
+    "abp_owner": "local operator",
+    "ciphertext_sha256": "67766f94cc6abf77dd3bc926511b74d2dc937197b3a0ee75691b0c0699d4bd34",
+    "status": "checkpointed"
+  },
+  "source_project_removed": true
+}

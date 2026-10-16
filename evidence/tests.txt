@@ -16,6 +16,6 @@ test_unknown_role_rejected (test_core.MemoryTest.test_unknown_role_rejected) ...
 test_wrong_key_and_path_escape (test_core.MemoryTest.test_wrong_key_and_path_escape) ... ok
 
 ----------------------------------------------------------------------
-Ran 16 tests in 4.884s
+Ran 16 tests in 4.954s
 
 OK
